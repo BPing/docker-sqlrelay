@@ -14,8 +14,10 @@ RUN yum -y install wget && \
 
 # 解压
 RUN cd /opt/  \
-    tar -xvf rudiments-1.0.5.tar.gz &&\
+    tar -xvf  rudiments-1.0.5.tar.gz &&\
     tar -xvf  sqlrelay-1.1.0.tar.gz
+	
+RUN /bin/ls -l /opt	
 	
 # 编译安装
 RUN cd /opt/rudiments-1.0.5 &&\
