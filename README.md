@@ -30,5 +30,4 @@ A prebuilt container is also available in the docker index
 </connections>
 </instance>
 </instances>
-~
 ```
