@@ -26,7 +26,7 @@ A prebuilt container is also available in the docker index
 <user user="cbping" password="cbping"/>
 </users>
 <connections>
-<connection  string="user=root;password=root;db=agri_data_center_v3;host=192.168.11.24;port=3306" />
+<connection  string="user=root;password=root;db=test;host=192.168.11.24;port=3306" />
 </connections>
 </instance>
 </instances>
