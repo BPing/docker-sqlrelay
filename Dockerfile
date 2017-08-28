@@ -1,6 +1,6 @@
 # 基于centos
 FROM centos
-MAINTAINER sqlrelay
+MAINTAINER cbping "452775680@qq.com"
 # 编译环境安装
 RUN yum -y install gcc-c++ make readline-devel openssl-devel krb5-devel pcre-devel libcurl-devel perl-devel php-devel php-pdo \
 python-devel ruby-devel ruby-libs ruby tcl-devel java-1.7.0-openjdk-devel \
