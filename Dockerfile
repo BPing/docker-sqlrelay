@@ -13,17 +13,19 @@ RUN yum -y install wget && \
 	wget http://downloads.sourceforge.net/rudiments/rudiments-1.0.5.tar.gz
 
 # 解压
-RUN tar -xvf /opt/rudiments-1.0.5.tar.gz &&\
-    tar -xvf /opt/sqlrelay-1.1.0.tar.gz
+RUN cd /opt/  \
+    tar -xvf rudiments-1.0.5.tar.gz &&\
+    tar -xvf  sqlrelay-1.1.0.tar.gz
 	
 # 编译安装
 RUN cd /opt/rudiments-1.0.5 &&\
-    ./configure --prefix=/opt/firstworks 
-RUN make && make install
+    ./configure --prefix=/opt/firstworks &&\
+     make && make install 
 
-RUN cd opt/sqlrelay-1.1.0 && \ 
-   ./configure -prefix=/opt/firstworks  -with-rudiments-prefix=/opt/firstworks
-RUN make && make install
+RUN cd /opt/sqlrelay-1.1.0 && \ 
+   ./configure -prefix=/opt/firstworks  -with-rudiments-prefix=/opt/firstworks &&\
+     make && make install 
+# RUN make && make install
 
 # 配置可执行文件目录
 ENV PATH /opt/firstworks/bin:$PATH  
