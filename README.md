@@ -17,11 +17,6 @@ or use data volume
 `docker run -p xx:xx -v /xx:/xx -t -i -d cbping/sqlrelay /xx/sqlrelay.conf`
 
 
-Avoid using a bind mount from a folder on host into `/xx`, as this might result in file permission issue. 
-If you really need to bind mount `sqlrelay` data volume, 
-ensure that directory on host is accessible by the sqlrelay user in container (sqlrelay user - uid 1000)
-or use `-u some_other_user` parameter with `docker run`.
-
 ## Building
 
 To build the image, simply invoke

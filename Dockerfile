@@ -7,19 +7,6 @@ RUN yum -y install gcc-c++ make readline-devel openssl-devel krb5-devel pcre-dev
 python-devel ruby-devel ruby-libs ruby tcl-devel java-1.7.0-openjdk-devel \
 mariadb-devel postgresql-devel sqlite-devel unixODBC-devel
 
-ARG user=sqlrelay
-ARG group=sqlrelay
-ARG uid=1000
-ARG gid=1000
-
-ENV SQLRELAY_HOME /opt/firstworks
-
-# Sqlrelay is run with user `sqlrelay`, uid = 1000
-# If you bind mount a volume from the host or a data container,
-# ensure you use the same uid
-RUN groupadd -g ${gid} ${group} \
-    && useradd -d "$SQLRELAY_HOME" -u ${uid} -g ${gid} -m -s /bin/bash ${user}
-
 # download sqlrelay
 RUN yum -y install wget && \
     cd /opt/ && \
@@ -48,8 +35,7 @@ RUN rm -f /opt/rudiments-1.0.5.tar.gz && \
 
 ENV PATH /opt/firstworks/bin:$PATH
 
-USER ${user}
-
 ENTRYPOINT ["sqlr-start","-config"]
+CMD [""]
 
 
