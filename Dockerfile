@@ -48,6 +48,8 @@ RUN rm -f /opt/rudiments-1.0.5.tar.gz && \
 
 ENV PATH /opt/firstworks/bin:$PATH
 
-ENTRYPOINT ["/bin/bash","-c","sqlr-start","-conf"]
 USER ${user}
+
+ENTRYPOINT ["/bin/bash","-c","sqlr-start","-conf"]
+
 
