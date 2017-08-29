@@ -1,35 +1,53 @@
-# 基于centos
 FROM centos
+
 MAINTAINER cbping "452775680@qq.com"
-# 编译环境安装
+
+# Compile environment installation
 RUN yum -y install gcc-c++ make readline-devel openssl-devel krb5-devel pcre-devel libcurl-devel perl-devel php-devel php-pdo \
 python-devel ruby-devel ruby-libs ruby tcl-devel java-1.7.0-openjdk-devel \
 mariadb-devel postgresql-devel sqlite-devel unixODBC-devel
 
-# 下载文件
+ARG user=sqlrelay
+ARG group=sqlrelay
+ARG uid=1000
+ARG gid=1000
+
+ENV SQLRELAY_HOME /opt/firstworks
+
+# Sqlrelay is run with user `sqlrelay`, uid = 1000
+# If you bind mount a volume from the host or a data container,
+# ensure you use the same uid
+RUN groupadd -g ${gid} ${group} \
+    && useradd -d "$SQLRELAY_HOME" -u ${uid} -g ${gid} -m -s /bin/bash ${user}
+
+# download sqlrelay
 RUN yum -y install wget && \
     cd /opt/ && \
 	wget http://downloads.sourceforge.net/sqlrelay/sqlrelay-1.1.0.tar.gz &&  \
 	wget http://downloads.sourceforge.net/rudiments/rudiments-1.0.5.tar.gz
 
-# 解压
+# tar
 RUN cd /opt/  &&\
     tar -xvf  rudiments-1.0.5.tar.gz &&\
     tar -xvf  sqlrelay-1.1.0.tar.gz
-	
-RUN /bin/ls -l /opt	
-	
-# 编译安装
+
+# build and install sqlrelay
 RUN cd /opt/rudiments-1.0.5 &&\
     ./configure --prefix=/opt/firstworks &&\
      make && make install 
 
 RUN cd /opt/sqlrelay-1.1.0 && \ 
-   ./configure -prefix=/opt/firstworks  -with-rudiments-prefix=/opt/firstworks &&\
-     make && make install 
-# RUN make && make install
+   ./configure --prefix=/opt/firstworks  --with-rudiments-prefix=/opt/firstworks &&\
+     make && make install
 
-# 配置可执行文件目录
-ENV PATH /opt/firstworks/bin:$PATH  
+# Delete residual useless files
+RUN rm -f /opt/rudiments-1.0.5.tar.gz && \
+    rm -f /opt/sqlrelay-1.1.0.tar.gz  && \
+    rm -rf /opt/rudiments-1.0.5       && \
+    rm -rf /opt/sqlrelay-1.1.0
 
-ENTRYPOINT ["sqlr-start","-conf"]
+ENV PATH /opt/firstworks/bin:$PATH
+
+ENTRYPOINT ["/bin/bash","-c","sqlr-start","-conf"]
+USER ${user}
+
