@@ -32,4 +32,4 @@ RUN cd /opt/sqlrelay-1.1.0 && \
 # 配置可执行文件目录
 ENV PATH /opt/firstworks/bin:$PATH  
 
-ENTRYPOINT [""]
+ENTRYPOINT ["sqlr-start","-conf"]
