@@ -35,7 +35,7 @@ RUN rm -f /opt/rudiments-1.0.5.tar.gz && \
 
 ENV PATH /opt/firstworks/bin:$PATH
 
-ENTRYPOINT ["sqlr-start","-config"]
+#ENTRYPOINT ["sqlr-start","-config"]
 CMD [""]
 
 

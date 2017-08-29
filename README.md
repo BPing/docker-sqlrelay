@@ -10,12 +10,19 @@ run sql-relay as docker container
 ## Usage
 To run the container, do the following(for example):
 
-`docker run -p 9000:9000 -t -i -d cbping/sqlrelay https://raw.githubusercontent.com/BPing/docker-sqlrelay/master/sqlrelay.conf `
+start 
 
-or use data volume
+```sh 
+docker run -p xx:xx -v /xx:/xx -t -i -d cbping/sqlrelay /bin/bash
+``` 
 
-`docker run -p xx:xx -v /xx:/xx -t -i -d cbping/sqlrelay /xx/sqlrelay.conf`
+then 
 
+```sh 
+[root@bf3648a633d1 /]# sqlr-start -config /xx/sqlrelay.conf -id cbping
+``` 
+
+click `crtl+p+q` ,let container running in background 
 
 ## Building
 
