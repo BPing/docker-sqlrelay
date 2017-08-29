@@ -50,6 +50,6 @@ ENV PATH /opt/firstworks/bin:$PATH
 
 USER ${user}
 
-#ENTRYPOINT ["/bin/bash","--","sqlr-start","-conf"]
+ENTRYPOINT ["sqlr-start","-config"]
 
 
