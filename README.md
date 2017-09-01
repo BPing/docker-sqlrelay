@@ -28,7 +28,7 @@ click `crtl+p+q` ,let container running in background
 
 To build the image, simply invoke
 
-    docker build github.com/cbping/docker-sqlrelay
+    docker build github.com/Bping/docker-sqlrelay
 
 A prebuilt container is also available in the docker index
 
