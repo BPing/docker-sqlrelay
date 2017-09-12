@@ -45,7 +45,3 @@ COPY sqlr-entrypoint.sh /opt/bin/sqlr-entrypoint.sh
 ENV PATH /opt/bin:$PATH
 ENTRYPOINT ["sqlr-entrypoint.sh"]
 
-#ENTRYPOINT ["sqlr-start","-config"]
-#CMD [""]
-
-

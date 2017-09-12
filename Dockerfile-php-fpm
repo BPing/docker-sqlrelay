@@ -1,0 +1,24 @@
+FROM centos
+
+MAINTAINER cbping "452775680@qq.com"
+
+# remove php and apache
+RUN yum remove httpd* php*
+# install php5.6
+RUN yum -y install php56w php56w-devel php56w-pear  \
+           php56w-fpm php56w-pdo php56w-mysql php56w-mbstring php56w-xml php56w-gd
+# install build env
+RUN yum -y install gcc gcc-c++ autoconf automake
+# install xdebug
+RUN pecl install Xdebug
+# remove unused installed
+RUN yum remove php56w-pear* gcc gcc-c++ autoconf automake
+
+EXPOSE 9000
+
+COPY fpm-entrypoint.sh /opt/bin/fpm-entrypoint.sh
+ENV PATH /opt/bin:$PATH
+ENTRYPOINT ["fpm-entrypoint.sh"]
+#CMD [""]
+
+
