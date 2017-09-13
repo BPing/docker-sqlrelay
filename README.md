@@ -21,6 +21,7 @@ then
 ```sh 
 [root@bf3648a633d1 /]# sqlr-start -config /xx/sqlrelay.conf -id xx
 ``` 
+click `crtl+p+q` ,let container running in background 
 
 or 
 
@@ -28,7 +29,7 @@ or
    docker run -p xx:xx -v /xx:/xx -t -i -d cbping/sqlrelay start -config /xx/sqlrelay.conf -id xx
 ```
 
-click `crtl+p+q` ,let container running in background 
+
 
 ## Building
 
