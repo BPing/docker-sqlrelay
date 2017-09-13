@@ -8,15 +8,13 @@ RUN yum -y install gcc-c++ make readline-devel openssl-devel krb5-devel libcurl-
    #  python-devel ruby-devel ruby-libs ruby tcl-devel java-1.7.0-openjdk-devel \
    #  mariadb-devel postgresql-devel sqlite-devel unixODBC-devel
 
-# download sqlrelay
+# download and tar sqlrelay
 RUN yum -y install wget && \
     cd /opt/ && \
 	wget http://downloads.sourceforge.net/sqlrelay/sqlrelay-1.1.0.tar.gz &&  \
-	wget http://downloads.sourceforge.net/rudiments/rudiments-1.0.5.tar.gz
-
-# tar
-RUN cd /opt/  &&\
-    tar -xvf  rudiments-1.0.5.tar.gz &&\
+	wget http://downloads.sourceforge.net/rudiments/rudiments-1.0.5.tar.gz && \
+    cd /opt/  && \
+    tar -xvf  rudiments-1.0.5.tar.gz && \
     tar -xvf  sqlrelay-1.1.0.tar.gz
 
 # build and install sqlrelay

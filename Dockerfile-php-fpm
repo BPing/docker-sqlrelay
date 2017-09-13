@@ -2,23 +2,48 @@ FROM centos
 
 MAINTAINER cbping "452775680@qq.com"
 
-# remove php and apache
-RUN yum remove httpd* php*
-# install php5.6
-RUN yum -y install php56w php56w-devel php56w-pear  \
-           php56w-fpm php56w-pdo php56w-mysql php56w-mbstring php56w-xml php56w-gd
+# install PHP5.6
+RUN yum remove httpd* php*  && \
+    yum -y install php56w php56w-devel php56w-pear  \
+                   php56w-fpm php56w-pdo php56w-mysql php56w-mbstring php56w-xml php56w-gd
 # install build env
-RUN yum -y install gcc gcc-c++ autoconf automake
+# Compile environment installation
+RUN yum -y install gcc gcc-c++ autoconf automake make \
+    readline-devel openssl-devel krb5-devel libcurl-devel
 # install xdebug
 RUN pecl install Xdebug
-# remove unused installed
-RUN yum remove php56w-pear* gcc gcc-c++ autoconf automake
 
 EXPOSE 9000
+
+# install sql_relay.so and pdo_sqlrelay.so to PHP. Maybe that's the stupidest way,but it do.
+# download and tar sqlrelay
+RUN yum -y install wget && \
+    cd /opt/ && \
+	wget http://downloads.sourceforge.net/sqlrelay/sqlrelay-1.1.0.tar.gz &&  \
+	wget http://downloads.sourceforge.net/rudiments/rudiments-1.0.5.tar.gz && \
+    cd /opt/  && \
+    tar -xvf  rudiments-1.0.5.tar.gz && \
+    tar -xvf  sqlrelay-1.1.0.tar.gz
+# build and install sqlrelay
+RUN cd /opt/rudiments-1.0.5 && \
+    ./configure --prefix=/opt/firstworks && \
+    make && make install
+# only no --disable-php
+RUN cd /opt/sqlrelay-1.1.0 && \
+    ./configure --prefix=/opt/firstworks  --with-rudiments-prefix=/opt/firstworks \
+    --disable-oracle --disable-postgresql --disable-sap --disable-odbc --disable-db2  --disable-firebird \
+    --disable-informix --disable-router --disable-odbc-driver --disable-perl --disable-python --disable-ruby \
+    --disable-java --disable-tcl  --disable-nodejs --disable-cs  &&\
+    make && make install
+# Delete residual useless files and installed
+RUN rm -f  /opt/rudiments-1.0.5.tar.gz && \
+    rm -f  /opt/sqlrelay-1.1.0.tar.gz  && \
+    rm -rf /opt/rudiments-1.0.5       && \
+    rm -rf /opt/sqlrelay-1.1.0        && \
+    yum -y remove wget krb5-devel*  libcurl-devel* php56w-pear* gcc gcc-c++ autoconf automake
 
 COPY fpm-entrypoint.sh /opt/bin/fpm-entrypoint.sh
 ENV PATH /opt/bin:$PATH
 ENTRYPOINT ["fpm-entrypoint.sh"]
-#CMD [""]
 
 
